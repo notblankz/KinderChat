@@ -1,18 +1,42 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from transformers import pipeline
+import re
 
 app = Flask(__name__)
 
 toxic_bert = pipeline("text-classification", model="unitary/toxic-bert", tokenizer="unitary/toxic-bert", return_all_scores=True)
 
-def analyze_message(message):
-    result = toxic_bert(message)
+def preprocess_text(text):
+    text = text.lower()
+    text = re.sub(r'http\S+', '', text)
+    text = ' '.join(text.split())
+    return text
 
-    print(result)
 
+@app.route('/analyze', methods=['POST'])
+def analyze_message():
+    data = request.get_json()
+    message = data.get('message')
+
+    processed_message = preprocess_text(message)
+
+    analysis_result = toxic_bert(processed_message)
+
+    # implement the threshold part here
+
+    for analysis in analysis_result[0]:
+        if analysis['score'] > 0.6:
+                return jsonify({
+                    'original_message': message,
+                    'analysis_result': True
+                })
+        else:
+            return jsonify({
+                'original_message': message,
+                'analysis_result': False
+            })
+
+    # print(analysis_result)
 
 if __name__ == '__main__':
-    message = ""
-    while ( message != "exit"):
-        message - input("Enter a msg: ")
-        analyze_message(message)
+    app.run(port=8080, debug=True)
