@@ -1,0 +1,28 @@
+{
+  "name": "kinderchat",
+  "version": "1.0.0",
+  "description": "A chat safe for kids",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsBlankz/KinderChat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsBlankz/KinderChat/issues"
+  },
+  "homepage": "https://github.com/ItsBlankz/KinderChat#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "npm-run-all": "^4.1.5",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
+  }
+}
