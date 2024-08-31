@@ -1,34 +1,69 @@
-const messageDisplay = document.getElementById("message-display");
+import { clean } from "profanity-cleaner";
+
+const messageDisplay = document.getElementById("message-container");
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("messageInp");
 const roomName = window.location.pathname.split("/")[2]; // Get the room name from the URL
-const senderUsername = document.querySelector("#name").innerText;
+const senderUsername = document.querySelector("#name").innerText; // put this somehow in the chat.ejs
+const exitButton = document.querySelector("#exitButton");
 
-const roomNamePattern = /^[A-Za-z]+$/;
-
-const socket = io("http://localhost:3000");
+const socket = io("http://10.7.18.12:3000", {
+    cors: {
+        origin: "*",
+    },
+});
 
 socket.emit("new-user-join", senderUsername, roomName);
 
-messageForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const message = messageInput.value;
-    if (message) {
-        socket.emit("send-chat-message", senderUsername, message, roomName);
-        messageInput.value = "";
-    }
+exitButton.addEventListener("click", () => {
+    socket.emit("exit-room", senderUsername, roomName);
+    window.location.href = "/";
 });
 
+messageForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    // call the api and stuff here and if it returns true then DONT SEND THE MESSAGE
+    const rawMessage = messageInput.value;
+    // if it returns false then we can run it thru the profanity filter and send it (just for safety)
+    fetch("http://10.7.18.12:8080/analyze", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'Access-Control-Allow-Origin':'*'
+        },
+        body: JSON.stringify({ message: rawMessage }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.analysis_result) {
+                alert("Message is not allowed");
+            } else {
+                const message = clean(rawMessage);
+                if (message) {
+                    socket.emit("send-chat-message", senderUsername, message, roomName);
+                    messageInput.value = "";
+                }
+            }
+        });
+});
+
+socket.on("add-to-list", (name) => {
+    const container = document.querySelector(".user-name")
+    const userElement = document.createElement("p");
+    userElement.innerText = name;
+    container.append(userElement);
+});
+
+// p -> a(username) br -> message
+
 socket.on("display-chat-message", ({message, username}) => {
-    const messageElement = document.createElement("div");
-    messageElement.innerText = `${username}: ${message}`;
+    const messageElement = document.createElement("p");
+    messageElement.innerHTML = "<a>" + username + ": </a>" + "<br>" + message;
     messageDisplay.append(messageElement);
-    console.log(senderUsername);
     if (username === senderUsername) {
-        // sent message
-        messageElement.style.textAlign = "right";
+        messageElement.classList.add("message-sent");
     } else {
-        // received message
-        messageElement.style.textAlign = "left";
+        messageElement.classList.add("message-recieve");
     }
+    messageDisplay.scrollTop = messageDisplay.scrollHeight;
 });

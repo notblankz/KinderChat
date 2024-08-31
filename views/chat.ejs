@@ -1,20 +1,66 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chatPage.js" defer></script>
+    <script src="/js/chatPage.bundle.js" defer></script>
+    <script type="module" src="/js/chatPage.js" defer></script>
     <title>KinderChat</title>
 </head>
 <body>
     <h1>Welcome to the Chat Room</h1>
-    <p>Room: <span><%= room %></span></p>
-    <p id="name"><%= name %></p>
+    <p>Room: <span>room</span></p>
+    <p id="name">name</p>
     <form id="message-form" method="POST">
         <input type="text" name="message" id="messageInp" placeholder="Enter your message" required>
         <button type="submit">Send Message</button>
     </form>
     <ul id="message-display"></ul>
+
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chatPage.bundle.js" defer></script>
+    <script type="module" src="/js/chatPage.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinderChat Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Belgrano&display=swap" rel="stylesheet">
+    <link rel = "stylesheet" href = "/css/chat.css">
+    <link rel="icon" type="image/x-icon" href="/assets/logo.jpg">
+</head>
+<body>
+    <div class="navbar">
+        <img src="/assets/logo.jpg" alt="">
+        <h3>Kinder<span style="color: #484240;">Chat.</span></h3>
+    </div>
+    <div class="main-page">
+        <div class="user-column">
+                <div class="room-name">
+                    <h1><%= room %></h1>
+                </div>
+                <div class="user-name">
+                    <p id="name"><%= name %></p>
+                    <div><button id="exitButton">EXIT</button></div>
+                </div>
+        </div>
+        <div class="chat-page">
+            <div class="messages" id="message-container">
+            </div>
+            <form id="message-form" method="post">
+                <input type="text" placeholder="Type a message..." id="messageInp">
+                <button type="submit"><img src="/assets/send-button.png" alt=""></button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

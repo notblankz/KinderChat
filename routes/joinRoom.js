@@ -10,8 +10,12 @@ router.get('/joinRoom', (req, res) => {
 });
 
 router.post('/joinRoom', (req, res) => {
+    const roomNamePattern = /^[A-Za-z1-9]+$/;
+    if (!roomNamePattern.test(req.body.room)) {
+        return res.render('joinRoom', {error: 'Room name can only contain letters and numbers'});
+    }
     const room = req.body.room;
-    res.redirect(`/chat/${room}`);
+    res.redirect(`/chat/${room}`); // /chat?room= ${room}  => /chat?room = test
 });
 
 export {router as joinRoomRouter};

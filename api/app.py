@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from transformers import pipeline
 import re
 
 app = Flask(__name__)
+CORS(app)
 
 toxic_bert = pipeline("text-classification", model="unitary/toxic-bert", tokenizer="unitary/toxic-bert", return_all_scores=True)
 
@@ -39,4 +41,4 @@ def analyze_message():
     # print(analysis_result)
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=True)
+    app.run(host="10.7.18.12", port=8080, debug=True)

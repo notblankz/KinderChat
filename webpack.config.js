@@ -5,10 +5,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: './public/js/chatPage.js', // Entry point
-  output: {
-    filename: 'chatPage.bundle.js', // Output file
-    path: path.resolve(__dirname, 'public/js'), // Output directory
-  },
-  mode: 'development', // Set the mode to development for easier debugging
+    entry: './public/js/chatPage.js',
+    output: {
+        filename: 'chatPage.bundle.js',
+        path: path.resolve(__dirname, 'public/js'),
+    },
+    mode: 'development',
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
+            },
+        ],
+    },
 };
