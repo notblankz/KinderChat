@@ -1,36 +1,3 @@
-// import express from "express";
-// import { Server } from "socket.io";
-// import { createServer } from "http";
-
-// const app = express();
-// const httpServer = createServer(app);
-// const io = new Server(httpServer, {
-//     cors: {
-//         origin: "*",
-//     },
-// });
-
-// io.on("connection", (socket) => {
-//     console.log("a user connected");
-
-//     socket.on("new-user-join", (name, room) => {
-//         socket.join(room);
-//         console.log(`user ${name} joined room ${room}`);
-//     });
-
-//     socket.on("send-chat-message", (message) => {
-//         io.emit("chat-message", message);
-//     });
-
-//     socket.on("disconnect", () => {
-//         console.log("user disconnected");
-//     });
-// });
-
-// httpServer.listen(5000, () => {
-//     console.log("listening on 5000");
-// });
-
 import { createServer } from "http";
 import { Server } from "socket.io";
 import app from "./index.js";  // Import the Express app
@@ -68,6 +35,6 @@ io.on("connection", (socket) => {
 
 // Start the server
 const port = 3000;
-httpServer.listen(port,  '10.7.18.12', () => {
+httpServer.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

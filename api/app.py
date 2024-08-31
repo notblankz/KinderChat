@@ -41,4 +41,4 @@ def analyze_message():
     # print(analysis_result)
 
 if __name__ == '__main__':
-    app.run(host="10.7.18.12", port=8080, debug=True)
+    app.run(port=8080, debug=True)

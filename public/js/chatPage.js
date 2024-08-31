@@ -7,7 +7,7 @@ const roomName = window.location.pathname.split("/")[2]; // Get the room name fr
 const senderUsername = document.querySelector("#name").innerText; // put this somehow in the chat.ejs
 const exitButton = document.querySelector("#exitButton");
 
-const socket = io("http://10.7.18.12:3000", {
+const socket = io("http://localhost:3000", {
     cors: {
         origin: "*",
     },
@@ -25,7 +25,7 @@ messageForm.addEventListener("submit", async (e) => {
     // call the api and stuff here and if it returns true then DONT SEND THE MESSAGE
     const rawMessage = messageInput.value;
     // if it returns false then we can run it thru the profanity filter and send it (just for safety)
-    fetch("http://10.7.18.12:8080/analyze", {
+    fetch("http://localhost:8080/analyze", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
