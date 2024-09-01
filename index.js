@@ -1,5 +1,5 @@
 import express from 'express';
-import { dbConnect } from './models/user.js';
+// import { dbConnect } from './models/user.js';
 import { loginRouter } from './routes/login.js';
 import { registerRouter } from './routes/register.js';
 import { landingRouter } from './routes/landing.js';
@@ -11,7 +11,7 @@ import cors from 'cors';
 const app = express();
 
 // Database connection
-dbConnect();
+// dbConnect();
 
 // Middleware and routes
 app.set('view engine', 'ejs');

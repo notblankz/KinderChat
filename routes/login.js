@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import bcrypt from 'bcrypt';
 import { dbConnect } from "../models/user.js";
 import session from "express-session";
+// import sql from "../models/user.js"
 
 const router = express.Router();
 const db = dbConnect();
@@ -28,10 +29,11 @@ router.post("/login", (req, res) => {
             console.error("Error executing query", err.stack);
             res.send("Error executing query");
         } else {
+            console.log(result);
             if (result.rows.length > 0) {
                 const isMatch = await bcrypt.compare(req.body.password, result.rows[0].password);
                 if (isMatch) {
-                    req.session.name = result.rows[0].name;  // Store name in session
+                    req.session.name = result.rows[0].username;  // Store name in session
                     res.redirect('/joinRoom');  // Redirect to landing page if credentials are valid
                 } else {
                     res.send("Invalid credentials");  // Send error message if password doesn't match
@@ -41,6 +43,26 @@ router.post("/login", (req, res) => {
             }
         }
     });
+
+    // const query = "SELECT * FROM users WHERE email = $1";
+    // sql`
+    //     ${query}
+    // `.then(result => {
+    //     if (result.rows.length > 0) {
+    //         const isMatch = bcrypt.compare(req.body.password, result.rows[0].password);
+    //         if (isMatch) {
+    //             req.session.name = result.rows[0].name;  // Store name in session
+    //             res.redirect('/joinRoom');  // Redirect to landing page if credentials are valid
+    //         } else {
+    //             res.send("Invalid credentials");  // Send error message if password doesn't match
+    //         }
+    //     } else {
+    //         res.send("Email not found");  // Send error message if email is not found
+    //     }
+    // }).catch(err => {
+    //     console.error("Error executing query", err.stack);
+    //     res.send("Error executing query");
+    // });
 });
 
 export {

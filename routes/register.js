@@ -25,8 +25,8 @@ router.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10)
   let id = uuidv4();
 
-    const query = "INSERT INTO users (id, name, password, email) VALUES ($1, $2, $3, $4)";
-    db.query(query, [id, name, hashedPassword, email], (err, result) => {
+    const query = "INSERT INTO users (id, username, email, password) VALUES ($1, $2, $3, $4)";
+    db.query(query, [id, name, email, hashedPassword], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
         } else {
