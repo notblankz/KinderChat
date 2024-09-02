@@ -7,13 +7,29 @@ const roomName = window.location.pathname.split("/")[2]; // Get the room name fr
 const senderUsername = document.querySelector("#name").innerText; // put this somehow in the chat.ejs
 const exitButton = document.querySelector("#exitButton");
 
-const socket = io("http://localhost:3000", {
+console.log(process.env.HOST)
+
+const socket = io("http://" + process.env.HOST + ":3000", {
     cors: {
         origin: "*",
     },
 });
 
 socket.emit("new-user-join", senderUsername, roomName);
+
+socket.on("update-list", (participants) => {
+    const container = document.querySelector(".participant-list")
+    container.innerHTML = "";
+    for (let participant of participants.participants) {
+        const participantElement = document.createElement("p");
+        participantElement.innerText = participant;
+        container.append(participantElement);
+    }
+});
+
+window.addEventListener("beforeunload", () => {
+    socket.emit("exit-room", senderUsername, roomName);
+});
 
 exitButton.addEventListener("click", () => {
     socket.emit("exit-room", senderUsername, roomName);
@@ -22,10 +38,8 @@ exitButton.addEventListener("click", () => {
 
 messageForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    // call the api and stuff here and if it returns true then DONT SEND THE MESSAGE
     const rawMessage = messageInput.value;
-    // if it returns false then we can run it thru the profanity filter and send it (just for safety)
-    fetch("http://localhost:8080/analyze", {
+    fetch("http://"+ process.env.HOST +":8080/analyze", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -46,15 +60,6 @@ messageForm.addEventListener("submit", async (e) => {
             }
         });
 });
-
-socket.on("add-to-list", (name) => {
-    const container = document.querySelector(".user-name")
-    const userElement = document.createElement("p");
-    userElement.innerText = name;
-    container.append(userElement);
-});
-
-// p -> a(username) br -> message
 
 socket.on("display-chat-message", ({message, username}) => {
     const messageElement = document.createElement("p");

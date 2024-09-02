@@ -1,33 +1,8 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chatPage.bundle.js" defer></script>
-    <script type="module" src="/js/chatPage.js" defer></script>
-    <title>KinderChat</title>
-</head>
-<body>
-    <h1>Welcome to the Chat Room</h1>
-    <p>Room: <span>room</span></p>
-    <p id="name">name</p>
-    <form id="message-form" method="POST">
-        <input type="text" name="message" id="messageInp" placeholder="Enter your message" required>
-        <button type="submit">Send Message</button>
-    </form>
-    <ul id="message-display"></ul>
-
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chatPage.bundle.js" defer></script>
-    <script type="module" src="/js/chatPage.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KinderChat Room</title>
@@ -49,7 +24,9 @@
                     <h1><%= room %></h1>
                 </div>
                 <div class="user-name">
-                    <p id="name"><%= name %></p>
+                    <div class="participant-list">
+                        <p id="name"><%= name %></p>
+                    </div>
                     <div><button id="exitButton">EXIT</button></div>
                 </div>
         </div>

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import pipeline
 import re
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -24,8 +25,6 @@ def analyze_message():
 
     analysis_result = toxic_bert(processed_message)
 
-    # implement the threshold part here
-
     for analysis in analysis_result[0]:
         if analysis['score'] > 0.6:
                 return jsonify({
@@ -38,7 +37,7 @@ def analyze_message():
                 'analysis_result': False
             })
 
-    # print(analysis_result)
+ip = os.environ.get('HOST', '0.0.0.0')
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=True)
+    app.run(host=ip,port=8080, debug=True)
