@@ -37,7 +37,7 @@ def analyze_message():
                 'analysis_result': False
             })
 
-ip = os.environ.get('HOST', 'localhost')
+ip = os.environ.get('HOST', '0.0.0.0')
 
 if __name__ == '__main__':
     app.run(host=ip,port=8080, debug=True)
