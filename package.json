@@ -5,16 +5,14 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "npm-run-all --parallel app server",
-    "app": "nodemon app.js",
-    "server": "nodemon server.js"
+    "start": "node server.js",
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ItsBlankz/KinderChat.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Aahan, Medhavi, Shivam, Chitraansh",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ItsBlankz/KinderChat/issues"
   },
