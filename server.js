@@ -29,7 +29,6 @@ io.on("connection", (socket) => {
                 participants = {participants: [name]};
                 const insertQuery = "INSERT INTO rooms (roomname, participants) VALUES ($1, $2)";
                 await db.query(insertQuery, [room, participants]);
-                console.log("Room created successfully");
             } else {
                 participants = result.rows[0].participants;
                 if (!participants.participants.includes(name)) {
@@ -37,7 +36,6 @@ io.on("connection", (socket) => {
                 }
                 const updateQuery = "UPDATE rooms SET participants = $1 WHERE roomname = $2";
                 await db.query(updateQuery, [participants, room]);
-                console.log("Room updated successfully");
             }
 
             console.log(participants);
@@ -53,7 +51,6 @@ io.on("connection", (socket) => {
 
     socket.on("send-chat-message", (username, message, room) => {
         io.to(room).emit("display-chat-message", {message, username});
-        console.log(`Message from ${username} in room ${room}: ${message}`);
     });
 
     socket.on("exit-room", async (username, room) => {
@@ -67,11 +64,9 @@ io.on("connection", (socket) => {
             if (participants.participants.length === 0) {
                 const deleteQuery = "DELETE FROM rooms WHERE roomname = $1";
                 await db.query(deleteQuery, [room]);
-                console.log("Room deleted successfully");
             } else {
                 const updateQuery = "UPDATE rooms SET participants = $1 WHERE roomname = $2";
                 await db.query(updateQuery, [participants, room]);
-                console.log("Room updated successfully");
             }
             socket.leave(room);
             io.to(room).emit("update-list", participants);
